@@ -59,3 +59,95 @@ function updateNavCartCount() {
   const { items } = getCartTotals();
   $('#nav-cart-count, #nav-cart-count-2, #nav-cart-count-3').text(items);
 }
+
+/* simple ephemeral toast */
+function showToast(msg) {
+  const $t = $(`<div class="position-fixed bottom-0 end-0 p-3" style="z-index:1050"><div class="toast align-items-center text-bg-dark border-0 show"><div class="d-flex"><div class="toast-body">${msg}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>`);
+  $('body').append($t);
+  setTimeout(()=> $t.fadeOut(300, ()=> $t.remove()), 2200);
+}
+
+/* Page initializers */
+function initPage(page) {
+  // set years
+  $('#year, #year-2, #year-3, #year-4').text(new Date().getFullYear());
+  updateNavCartCount();
+
+  if (page === 'home') {
+    renderFeatured();
+  }
+  if (page === 'products') {
+    renderProductsPage();
+    $('#search-input').on('input', filterProductsFromInputs);
+    $('#category-select').on('change', filterProductsFromInputs);
+  }
+  if (page === 'cart') {
+    renderCartPage();
+    $('#clear-cart').on('click', ()=> { clearCart(); renderCartPage(); });
+    $('#checkout-btn').on('click', ()=> { const modal = new bootstrap.Modal(document.getElementById('checkoutModal')); modal.show(); });
+  }
+  if (page === 'login') {
+    setupLoginForm();
+  }
+}
+
+/* HOME - featured */
+function renderFeatured() {
+  const featured = PRODUCTS.slice(0, 3);
+  const $row = $('#featured-row').empty();
+  featured.forEach(p => {
+    const col = `<div class="col-md-4">
+      <div class="card product-card">
+        <img src="${p.image}" class="card-img-top" alt="${escapeHtml(p.name)}">
+        <div class="card-body">
+          <h5 class="card-title">${escapeHtml(p.name)}</h5>
+          <p class="card-text text-muted">$${p.price.toFixed(2)}</p>
+          <div class="d-flex gap-2">
+            <a href="products.html" class="btn btn-outline-secondary btn-sm">View</a>
+            <button class="btn btn-warning btn-sm" onclick="addToCart('${p.id}')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    $row.append(col);
+  });
+}
+
+/* PRODUCTS page render & filtering */
+function renderProductsPage() {
+  renderProducts(PRODUCTS);
+}
+function renderProducts(list) {
+  const $grid = $('#products-grid').empty();
+  if (!list.length) {
+    $grid.append('<div class="col-12 text-center py-5"><p class="lead">No products found</p></div>');
+    return;
+  }
+  list.forEach(p => {
+    const col = `<div class="col-12 col-md-6 col-lg-4">
+      <div class="card product-card h-100">
+        <img src="${p.image}" class="card-img-top" alt="${escapeHtml(p.name)}" />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">${escapeHtml(p.name)}</h5>
+          <p class="card-text text-muted mb-3">$${p.price.toFixed(2)}</p>
+          <div class="mt-auto d-flex gap-2">
+            <button class="btn btn-outline-secondary" onclick="viewProduct('${p.id}')">View</button>
+            <button class="btn btn-warning" onclick="addToCart('${p.id}')">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    $grid.append(col);
+  });
+}
+
+function filterProductsFromInputs() {
+  const query = ($('#search-input').val() || '').trim().toLowerCase();
+  const category = $('#category-select').val();
+  let res = PRODUCTS.filter(p => {
+    if (query && !p.name.toLowerCase().includes(query)) return false;
+    if (category && category !== 'all' && p.category !== category) return false;
+    return true;
+  });
+  renderProducts(res);
+}
