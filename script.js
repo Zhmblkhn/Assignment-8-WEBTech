@@ -151,3 +151,125 @@ function filterProductsFromInputs() {
   });
   renderProducts(res);
 }
+
+/* CART page rendering */
+function renderCartPage() {
+  const cart = readCart();
+  if (!cart.length) {
+    $('#cart-area').addClass('d-none');
+    $('#cart-empty').removeClass('d-none');
+    updateNavCartCount();
+    return;
+  }
+  $('#cart-empty').addClass('d-none');
+  $('#cart-area').removeClass('d-none');
+
+  const $items = $('#cart-items').empty();
+  cart.forEach(it => {
+    const el = $(`
+      <div class="list-group-item d-flex gap-3 align-items-center">
+        <img src="${it.image}" alt="" style="width:84px;height:64px;object-fit:cover;border-radius:6px;">
+        <div class="flex-grow-1">
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="fw-semibold">${escapeHtml(it.name)}</div>
+              <div class="text-muted small">$${it.price.toFixed(2)} each</div>
+            </div>
+            <div class="text-end">
+              <div class="fw-bold">$${(it.price * it.qty).toFixed(2)}</div>
+              <div class="small text-muted">${it.qty} pcs</div>
+            </div>
+          </div>
+          <div class="mt-2 d-flex gap-2">
+            <button class="btn btn-sm btn-outline-secondary" onclick="decrementQty('${it.id}')">−</button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="incrementQty('${it.id}')">+</button>
+            <button class="btn btn-sm btn-outline-danger ms-auto" onclick="removeFromCartAndRerender('${it.id}')">Remove</button>
+          </div>
+        </div>
+      </div>
+    `);
+    $items.append(el);
+  });
+
+  const totals = getCartTotals();
+  $('#cart-items-count').text(totals.items);
+  $('#cart-subtotal').text('$' + totals.total.toFixed(2));
+  updateNavCartCount();
+}
+
+function incrementQty(id) {
+  const cart = readCart();
+  const item = cart.find(i => i.id === id);
+  if (item) { item.qty += 1; writeCart(cart); renderCartPage(); }
+}
+function decrementQty(id) {
+  const cart = readCart();
+  const item = cart.find(i => i.id === id);
+  if (item) {
+    item.qty = Math.max(1, item.qty - 1);
+    writeCart(cart);
+    renderCartPage();
+  }
+}
+function removeFromCartAndRerender(id) { removeFromCart(id); renderCartPage(); }
+
+/* Simple product view (opens products page anchored) */
+function viewProduct(id) {
+  // For this static demo, navigate to products page and highlight product via localStorage
+  localStorage.setItem('furni_scroll_to', id);
+  location.href = 'products.html';
+}
+
+/* LOGIN form handlers (simple client-side validation + mock auth) */
+function setupLoginForm() {
+  $('#login-form').on('submit', function (e) {
+    e.preventDefault();
+    const email = $('#login-email').val().trim();
+    const pwd = $('#login-password').val();
+    if (!validateEmail(email)) {
+      showAuthMessage('Введите корректный email', 'danger'); $('#login-email').addClass('is-invalid'); return;
+    } else { $('#login-email').removeClass('is-invalid'); }
+    if (pwd.length < 6) {
+      showAuthMessage('Пароль должен содержать минимум 6 символов', 'danger'); $('#login-password').addClass('is-invalid'); return;
+    } else { $('#login-password').removeClass('is-invalid'); }
+
+    // Mock login success
+    showAuthMessage('Вход успешен — редирект...', 'success');
+    setTimeout(()=> { location.href = 'index.html'; }, 900);
+  });
+}
+
+function showAuthMessage(txt, type) {
+  const $m = $('#auth-message');
+  $m.removeClass('d-none alert-success alert-danger').addClass('alert-' + (type === 'success' ? 'success' : 'danger')).text(txt).removeClass('d-none');
+}
+
+/* small utilities */
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+function escapeHtml(s) { return String(s).replace(/[&<>"']/g, function (m) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; }); }
+
+/* Auto-run to highlight product after viewProduct() */
+$(function(){
+  const scrollTo = localStorage.getItem('furni_scroll_to');
+  if (scrollTo && $('#products-grid').length) {
+    setTimeout(()=> {
+      const el = $(`[onclick="addToCart('${scrollTo}')"]`).closest('.col-12');
+      if (el.length) {
+        $('html,body').animate({ scrollTop: el.offset().top - 80 }, 500);
+        el.addClass('border border-warning rounded-3');
+        setTimeout(()=> el.removeClass('border border-warning rounded-3'), 2400);
+      }
+      localStorage.removeItem('furni_scroll_to');
+    }, 300);
+  }
+});
+
+/* initial rendering for products list on page load (if page has products-grid) */
+$(function(){
+  if ($('#products-grid').length && $('#products-grid').children().length === 0) {
+    // first-time render
+    renderProducts(PRODUCTS);
+  }
+});
