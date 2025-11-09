@@ -30,3 +30,40 @@
       </div>
     </nav>
   </header>
+
+  <main class="py-5">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-start mb-4 gap-3">
+        <h1 class="h3 mb-0">Our Collection</h1>
+        <div class="d-flex gap-2 w-100 w-md-auto">
+          <div class="position-relative flex-grow-1">
+            <i class="bi bi-search search-icon"></i>
+            <input id="search-input" class="form-control ps-4" placeholder="Search furniture..." />
+          </div>
+          <select id="category-select" class="form-select w-auto">
+            <option value="all">All</option>
+            <option value="sofa">Sofa</option>
+            <option value="chair">Chair</option>
+            <option value="table">Table</option>
+            <option value="bed">Bed</option>
+            <option value="lighting">Lighting</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="products-grid" class="row g-4">
+        <!-- injected by JS -->
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer bg-light py-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+      <small>© <span id="year-2"></span> Furni. All rights reserved.</small>
+      <div class="mt-2 mt-md-0">
+        <a href="mailto:info@furni.example" class="me-3">Contact</a>
+        <a href="#" class="me-3">Privacy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </footer>
