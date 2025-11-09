@@ -18,3 +18,39 @@
       </div>
     </nav>
   </header>
+
+    <main class="py-5 d-flex align-items-center" style="min-height:70vh;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="card shadow-sm p-4">
+            <h3 class="mb-3">Sign In</h3>
+
+            <div id="auth-message" class="alert d-none" role="alert"></div>
+
+            <form id="login-form" novalidate>
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" id="login-email" class="form-control" required>
+                <div class="invalid-feedback">Введите корректный email</div>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" id="login-password" class="form-control" minlength="6" required>
+                <div class="invalid-feedback">Пароль минимум 6 символов</div>
+              </div>
+
+              <div class="d-grid">
+                <button type="submit" id="login-submit" class="btn btn-warning">Sign In</button>
+              </div>
+
+              <div class="text-center mt-3">
+                <a href="products.html">Continue as guest</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
