@@ -32,3 +32,49 @@ body {
   box-shadow: 0 3px 8px rgba(22,22,22,0.06);
 }
 
+/* Hero */
+.hero {
+  background: linear-gradient(90deg, rgba(255,247,237,1) 0%, rgba(255,241,230,1) 100%);
+}
+
+/* Product card overrides */
+.card.product-card {
+  border: none;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.card.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(17,24,39,0.08);
+}
+
+/* Buttons */
+.btn-warning {
+  background: var(--brand-amber);
+  border-color: var(--brand-amber-dark);
+  color: #fff;
+}
+.btn-warning:hover {
+  background: var(--brand-amber-dark);
+}
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid #eef2f7;
+}
+
+/* Small UI helpers */
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 9px;
+  font-size: 1rem;
+  color: #9ca3af;
+}
+
+/* Responsive tweaks */
+@media (max-width: 767px) {
+  .logo-circle { width:36px; height:36px; font-size:18px; }
+  .hero .display-4 { font-size:2rem; }
+}
+
+
