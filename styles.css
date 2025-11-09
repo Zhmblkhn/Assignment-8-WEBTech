@@ -1,0 +1,34 @@
+/* Custom styling (consistent design) */
+:root{
+  --brand-amber: #f59e0b; /* amber/yellow */
+  --brand-amber-dark: #d97706;
+  --accent-red: #dc2626;
+  --muted: #6b7280;
+  --max-width: 1200px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #f8fafc;
+  color: #111827;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header / Navbar */
+.site-header .navbar {
+  background: white;
+  border-bottom: 1px solid #eef2f7;
+  padding-top: .6rem;
+  padding-bottom: .6rem;
+}
+.logo-circle {
+  width:42px; height:42px;
+  display:inline-grid; place-items:center;
+  background: var(--brand-amber);
+  color: #fff; border-radius: 8px; font-size:20px;
+  box-shadow: 0 3px 8px rgba(22,22,22,0.06);
+}
+
