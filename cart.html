@@ -1,15 +1,16 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Furni — Cart</title>
+  <title data-i18n="title_cart">Furni — Cart</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="site-header">
-    <nav class="navbar navbar-expand-lg navbar-light">
+    <nav class="navbar navbar-expand-lg">
       <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.html">
           <div class="logo-circle me-2">🪑</div>
@@ -20,10 +21,23 @@
         </button>
         <div class="collapse navbar-collapse" id="mainNav3">
           <ul class="navbar-nav ms-auto align-items-lg-center">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
-            <li class="nav-item"><a class="nav-link active" href="cart.html">Cart <span id="nav-cart-count-3" class="badge bg-danger ms-1">0</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="index.html" data-i18n="nav_home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="products.html" data-i18n="nav_products">Products</a></li>
+            <li class="nav-item"><a class="nav-link active" href="cart.html" data-i18n="nav_cart">Cart <span id="nav-cart-count-3" class="badge bg-danger ms-1">0</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="login.html" data-i18n="nav_login">Login</a></li>
+
+            <li class="nav-item d-flex align-items-center ms-3">
+              <select id="lang-select" class="form-select form-select-sm" style="width:auto;">
+                <option value="en">EN</option>
+                <option value="ru">RU</option>
+              </select>
+            </li>
+
+            <li class="nav-item d-flex align-items-center ms-2">
+              <button id="theme-toggle" class="btn btn-sm btn-outline-secondary" aria-label="Toggle theme">
+                <i id="theme-icon" class="bi bi-sun-fill"></i>
+              </button>
+            </li>
           </ul>
         </div>
       </div>
@@ -32,12 +46,12 @@
 
   <main class="py-5">
     <div class="container">
-      <h1 class="h3 mb-4">Shopping Cart</h1>
+      <h1 class="h3 mb-4" data-i18n="cart_title">Shopping Cart</h1>
 
       <div id="cart-empty" class="text-center py-5 bg-white rounded shadow-sm d-none">
         <i class="bi bi-cart-x display-1 text-muted"></i>
-        <p class="lead mt-3">Your cart is empty</p>
-        <a href="products.html" class="btn btn-warning">Continue Shopping</a>
+        <p class="lead mt-3" data-i18n="cart_empty">Your cart is empty</p>
+        <a href="products.html" class="btn btn-warning" data-i18n="continue_shopping">Continue Shopping</a>
       </div>
 
       <div id="cart-area" class="row g-4 d-none">
@@ -46,20 +60,20 @@
             <!-- items -->
           </div>
           <div class="mt-3">
-            <button id="clear-cart" class="btn btn-outline-danger">Clear Cart</button>
+            <button id="clear-cart" class="btn btn-outline-danger" data-i18n="clear_cart">Clear Cart</button>
           </div>
         </div>
 
         <aside class="col-lg-4">
           <div class="card shadow-sm">
             <div class="card-body">
-              <h5 class="card-title">Order Summary</h5>
-              <p class="card-text">Subtotal (<span id="cart-items-count">0</span> items): <strong id="cart-subtotal">$0.00</strong></p>
-              <p class="card-text">Shipping: <span class="text-success">FREE</span></p>
+              <h5 class="card-title" data-i18n="order_summary">Order Summary</h5>
+              <p class="card-text" data-i18n="subtotal">Subtotal (<span id="cart-items-count">0</span> items): <strong id="cart-subtotal">$0.00</strong></p>
+              <p class="card-text">Shipping: <span class="text-success" data-i18n="shipping_free">FREE</span></p>
               <div class="d-grid">
-                <button id="checkout-btn" class="btn btn-warning">Proceed to Checkout</button>
+                <button id="checkout-btn" class="btn btn-warning" data-i18n="proceed_checkout">Proceed to Checkout</button>
               </div>
-              <a href="products.html" class="btn btn-link mt-2">Continue Shopping</a>
+              <a href="products.html" class="btn btn-link mt-2" data-i18n="continue_shopping">Continue Shopping</a>
             </div>
           </div>
         </aside>
@@ -72,15 +86,15 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content rounded-3">
         <div class="modal-header border-0">
-          <h5 class="modal-title">Coming Soon</h5>
+          <h5 class="modal-title" data-i18n="coming_soon">Coming Soon</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <p>Sorry, we haven't set up the checkout process yet. This feature is coming soon!</p>
+          <p data-i18n="checkout_not_ready">Sorry, we haven't set up the checkout process yet. This feature is coming soon!</p>
         </div>
         <div class="modal-footer border-0">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <a href="products.html" class="btn btn-warning">Continue Shopping</a>
+          <button class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="close">Close</button>
+          <a href="products.html" class="btn btn-warning" data-i18n="continue_shopping">Continue Shopping</a>
         </div>
       </div>
     </div>
@@ -88,18 +102,21 @@
 
   <footer class="site-footer bg-light py-4">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-      <small>© <span id="year-3"></span> Furni. All rights reserved.</small>
+      <small>© <span id="year-3"></span> Furni. <span data-i18n="rights">All rights reserved.</span></small>
       <div class="mt-2 mt-md-0">
-        <a href="mailto:info@furni.example" class="me-3">Contact</a>
-        <a href="#" class="me-3">Privacy</a>
-        <a href="#">Terms</a>
+        <a href="mailto:info@furni.example" class="me-3" data-i18n="contact">Contact</a>
+        <a href="#" class="me-3" data-i18n="privacy">Privacy</a>
+        <a href="#" data-i18n="terms">Terms</a>
       </div>
     </div>
   </footer>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js"></script>
+
+  <script src="js/lang.js"></script>
+  <script src="js/theme.js"></script>
+  <script src="js/core.js"></script>
   <script>initPage('cart');</script>
 </body>
 </html>
